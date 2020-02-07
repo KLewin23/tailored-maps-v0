@@ -1,0 +1,27 @@
+{
+    "expo": {
+        "name": "Tab Navigation Template",
+        "slug": "tailored-maps",
+        "owner": "Kieran Lewin",
+        "privacy": "public",
+        "sdkVersion": "36.0.0",
+        "entryPoint": "./src/Main.js",
+        "platforms": ["ios", "android", "web"],
+        "version": "1.0.0",
+        "primaryColor": "#ffffff",
+        "orientation": "portrait",
+        "icon": "./src/assets/images/icon.png",
+        "splash": {
+            "image": "./src/assets/images/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        }
+    }
+}
