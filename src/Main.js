@@ -1,13 +1,15 @@
-import { AppLoading, registerRootComponent } from 'expo'
 import * as Font from 'expo-font'
-import React, { useState } from 'react'
-import { Platform, StatusBar, StyleSheet, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import { HomeScreen } from './screens'
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
-import { mapping, light as lightTheme } from '@eva-design/eva'
 import theme from './custom-theme.json'
-import { EvaIconsPack } from '@ui-kitten/eva-icons'
+import React, { useState } from 'react'
+import { Ionicons } from '@expo/vector-icons'
+import { AppNavigator } from './screens/navigation.component'
+import { SafeAreaView } from 'react-navigation'
+import { AntIconsPack } from './assets/icons/AntAdapter'
+import { AppLoading, registerRootComponent } from 'expo'
+import { mapping, light as lightTheme } from '@eva-design/eva'
+import { Platform, StatusBar, StyleSheet, View } from 'react-native'
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 
 function Main(props) {
 	const [isLoadingComplete, setLoadingComplete] = useState(false)
@@ -24,12 +26,12 @@ function Main(props) {
 		return (
 			<View style={styles.container}>
 				{Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-				<IconRegistry icons={EvaIconsPack} />
+				<IconRegistry icons={AntIconsPack} />
 				<ApplicationProvider
 					mapping={mapping}
 					theme={{ ...lightTheme, ...theme }}
 				>
-					<HomeScreen />
+					<AppNavigator />
 				</ApplicationProvider>
 			</View>
 		)
