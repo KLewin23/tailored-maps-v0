@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Image } from 'react-native'
+import { StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { Button, Layout } from '@ui-kitten/components'
 import { SafeAreaView } from 'react-navigation'
 
@@ -15,17 +15,19 @@ export default function CreateScreen({ navigation }) {
 			<Layout>
 				<Layout style={styles.MaxBar} />
 				<Layout style={styles.topBar}>
-					<Image
-						source={require('../assets/images/icon.png')}
-						style={styles.logo}
-					/>
+					<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+						<Image
+							source={require('../assets/images/icon.png')}
+							style={styles.logo}
+						/>
+					</TouchableOpacity>
 				</Layout>
 				<Layout style={styles.mainBody}>
 					<Button style={{ marginTop: 500 }} onPress={home}>
 						Test
 					</Button>
 				</Layout>
-				<Layout style={styles.bottomBar} />
+				<Layout style={styles.bottomBar} layer={2} />
 			</Layout>
 		</SafeAreaView>
 	)

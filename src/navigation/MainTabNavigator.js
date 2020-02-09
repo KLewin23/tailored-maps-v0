@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import TabBarIcon from '../components/TabBarIcon'
 import HomeScreen from '../screens/HomeScreen'
-import LinksScreen from '../screens/LinksScreen'
+import LinksScreen from '../screens/CreateMap'
 import SettingsScreen from '../screens/SettingsScreen'
 
 const config = Platform.select({
