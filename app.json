@@ -5,7 +5,7 @@
 		"owner": "Kieran Lewin",
 		"privacy": "public",
 		"sdkVersion": "36.0.0",
-		"entryPoint": "./src/Main.js",
+		"entryPoint": "./node_modules/expo/AppEntry.js",
 		"platforms": ["ios", "android", "web"],
 		"version": "1.0.0",
 		"primaryColor": "#ffffff",

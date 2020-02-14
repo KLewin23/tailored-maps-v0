@@ -1,5 +1,5 @@
 {
-	"main": "./src/Main.js",
+	"main": "./node_modules/expo/AppEntry.js",
 	"scripts": {
 		"start": "expo start",
 		"android": "expo start --android",
@@ -13,7 +13,7 @@
 		"transformIgnorePatterns": [
 			"node_modules/(?!(jest-)?react-native|three|react-clone-referenced-element|@ui-kitten/components|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base)"
 		],
-		"collectCoverage": true,
+		"collectCoverage": false,
 		"collectCoverageFrom": [
 			"**/*.{js,jsx}",
 			"!**/coverage/**",

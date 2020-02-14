@@ -1,10 +1,10 @@
 import * as Font from 'expo-font'
-import theme from './custom-theme.json'
+import theme from './src/custom-theme.json'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
-import { AppNavigator } from './screens/navigation.component'
-import { AntIconsPack } from './assets/icons/AntAdapter'
-import { AppLoading, registerRootComponent } from 'expo'
+import { AppNavigator } from './src/screens/navigation.component'
+import { AntIconsPack } from './src/assets/icons/AntAdapter'
+import { AppLoading } from 'expo'
 import { mapping, light as lightTheme } from '@eva-design/eva'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
@@ -40,8 +40,8 @@ async function loadResourcesAsync() {
 	await Promise.all([
 		Font.loadAsync({
 			...Ionicons.font,
-			'plex-reg': require('./assets/fonts/IBMPlexSansArabic-Regular.ttf'),
-			'plex-bold': require('./assets/fonts/IBMPlexSansArabic-Bold.ttf')
+			'plex-reg': require('./src/assets/fonts/IBMPlexSansArabic-Regular.ttf'),
+			'plex-bold': require('./src/assets/fonts/IBMPlexSansArabic-Bold.ttf')
 		})
 	])
 }
@@ -60,5 +60,3 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff'
 	}
 })
-
-registerRootComponent(Main)

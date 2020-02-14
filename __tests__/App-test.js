@@ -1,27 +1,17 @@
 import React from 'react'
-import NavigationTestUtils from 'react-navigation/NavigationTestUtils'
 import renderer from 'react-test-renderer'
-
-import Main from '../src/Main'
+import App from '../App'
 
 jest.mock('expo', () => ({
 	AppLoading: 'AppLoading'
 }))
 
 describe('Main', () => {
-	jest.useFakeTimers()
-
-	beforeEach(() => {
-		NavigationTestUtils.resetInternalState()
-	})
-
 	it('renders the loading screen', () => {
-		const tree = renderer.create(<Main />).toJSON()
-		expect(tree).toMatchSnapshot()
+		expect(renderer.create(<App />).toJSON()).toMatchSnapshot()
 	})
 
 	it('renders the root without loading screen', () => {
-		const tree = renderer.create(<Main skipLoadingScreen />).toJSON()
-		expect(tree).toMatchSnapshot()
+		expect(renderer.create(<App skipLoadingScreen />).toJSON()).toMatchSnapshot()
 	})
 })

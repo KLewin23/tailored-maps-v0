@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React  from 'react'
 import { Layout, Text } from '@ui-kitten/components'
 import { StyleSheet, Alert, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'

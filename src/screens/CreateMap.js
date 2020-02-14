@@ -3,19 +3,17 @@ import {
 	StyleSheet,
 	Image,
 	TouchableOpacity,
-	Dimensions,
-	Alert
+	Dimensions
 } from 'react-native'
 import { Layout } from '@ui-kitten/components'
 import Icon from 'react-native-vector-icons/AntDesign'
-import MapBuilder from '../components/MapBuilder'
-import Toolbox from '../components/Toolbox'
+import { MapBuilder, ToolBox } from '../components'
 
 // eslint-disable-next-line react/prop-types
 export default function CreateScreen({ navigation }) {
 	const [toolBox, setToolbox] = useState(true)
 
-	const BottomBar = () => (toolBox ? <Toolbox /> : <Layout />)
+	const BottomBar = () => (toolBox ? <ToolBox /> : <Layout />)
 
 	// setToolbox(true)
 
