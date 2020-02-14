@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.org/Afrenchrussian/tailored-maps.svg?branch=master)
+
 
 **Tailored Maps**
 
