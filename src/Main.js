@@ -9,7 +9,7 @@ import { mapping, light as lightTheme } from '@eva-design/eva'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 
-function Main(props) {
+export default function Main(props) {
 	const [isLoadingComplete, setLoadingComplete] = useState(false)
 
 	if (!isLoadingComplete && !props.skipLoadingScreen) {
@@ -23,7 +23,7 @@ function Main(props) {
 	} else {
 		return (
 			<View style={styles.container}>
-				{Platform.OS === 'ios' && <StatusBar barStyle='default' />}
+				{Platform.OS === 'ios' && <StatusBar barStyle="default" />}
 				<IconRegistry icons={AntIconsPack} />
 				<ApplicationProvider
 					mapping={mapping}
