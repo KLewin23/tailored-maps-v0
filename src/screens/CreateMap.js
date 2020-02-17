@@ -11,7 +11,7 @@ import { MapBuilder, ToolBox } from '../components'
 
 // eslint-disable-next-line react/prop-types
 export default function CreateScreen({ navigation }) {
-	const [toolBox, setToolbox] = useState(true)
+	const [toolBox, setToolbox] = useState(false)
 
 	const BottomBar = () => (toolBox ? <ToolBox /> : <Layout />)
 
