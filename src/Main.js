@@ -1,15 +1,15 @@
 import * as Font from 'expo-font'
-import theme from './src/custom-theme.json'
+import theme from './custom-theme.json'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
-import { AppNavigator } from './src/screens/navigation.component'
-import { AntIconsPack } from './src/assets/icons/AntAdapter'
-import { AppLoading } from 'expo'
+import { AppNavigator } from './screens/navigation.component'
+import { AntIconsPack } from './assets/icons/AntAdapter'
+import { AppLoading, registerRootComponent } from 'expo'
 import { mapping, light as lightTheme } from '@eva-design/eva'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 
-export default function Main(props) {
+function Main(props) {
 	const [isLoadingComplete, setLoadingComplete] = useState(false)
 
 	if (!isLoadingComplete && !props.skipLoadingScreen) {
@@ -23,7 +23,7 @@ export default function Main(props) {
 	} else {
 		return (
 			<View style={styles.container}>
-				{Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+				{Platform.OS === 'ios' && <StatusBar barStyle='default' />}
 				<IconRegistry icons={AntIconsPack} />
 				<ApplicationProvider
 					mapping={mapping}
@@ -40,8 +40,8 @@ async function loadResourcesAsync() {
 	await Promise.all([
 		Font.loadAsync({
 			...Ionicons.font,
-			'plex-reg': require('./src/assets/fonts/IBMPlexSansArabic-Regular.ttf'),
-			'plex-bold': require('./src/assets/fonts/IBMPlexSansArabic-Bold.ttf')
+			'plex-reg': require('./assets/fonts/IBMPlexSansArabic-Regular.ttf'),
+			'plex-bold': require('./assets/fonts/IBMPlexSansArabic-Bold.ttf')
 		})
 	])
 }
@@ -60,3 +60,5 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff'
 	}
 })
+
+registerRootComponent(Main)

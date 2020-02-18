@@ -7,13 +7,13 @@ import {
 } from 'react-native'
 import { Layout } from '@ui-kitten/components'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { MapBuilder, ToolBox } from '../components'
+import {MapBuilder, Toolbox} from '../components'
 
 // eslint-disable-next-line react/prop-types
 export default function CreateScreen({ navigation }) {
 	const [toolBox, setToolbox] = useState(false)
 
-	const BottomBar = () => (toolBox ? <ToolBox /> : <Layout />)
+	const BottomBar = () => (toolBox ? <Toolbox /> : <Layout />)
 
 	// setToolbox(true)
 
@@ -35,20 +35,20 @@ export default function CreateScreen({ navigation }) {
 			<Layout style={styles.bottomBar}>
 				<TouchableOpacity>
 					<Icon
-						name="logout"
+						name='logout'
 						size={30}
 						onPress={() => navigation.navigate('Home')}
 					/>
 				</TouchableOpacity>
 				<TouchableOpacity>
-					<Icon name="google" size={30} />
+					<Icon name='google' size={30} />
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => {
 						setToolbox(!toolBox)
 					}}
 				>
-					<Icon name="tool" size={30} />
+					<Icon name='tool' size={30} />
 				</TouchableOpacity>
 			</Layout>
 		</Layout>

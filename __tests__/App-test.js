@@ -1,17 +1,29 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
-import App from '../App'
+import React from 'react';
+import NavigationTestUtils from 'react-navigation/NavigationTestUtils';
+import renderer from 'react-test-renderer';
+
+import Main from '../src/Main';
 
 jest.mock('expo', () => ({
-	AppLoading: 'AppLoading'
-}))
+  AppLoading: 'AppLoading',
+}));
+
+jest.mock('../navigation/AppNavigator', () => 'AppNavigator');
 
 describe('Main', () => {
-	it('renders the loading screen', () => {
-		expect(renderer.create(<App />).toJSON()).toMatchSnapshot()
-	})
+  jest.useFakeTimers();
 
-	it('renders the root without loading screen', () => {
-		expect(renderer.create(<App skipLoadingScreen />).toJSON()).toMatchSnapshot()
-	})
-})
+  beforeEach(() => {
+    NavigationTestUtils.resetInternalState();
+  });
+
+  it(`renders the loading screen`, () => {
+    const tree = renderer.create(<Main />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`renders the root without loading screen`, () => {
+    const tree = renderer.create(<Main skipLoadingScreen />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});

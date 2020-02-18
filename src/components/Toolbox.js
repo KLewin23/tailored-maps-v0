@@ -1,4 +1,4 @@
-import React  from 'react'
+import React, { useState } from 'react'
 import { Layout, Text } from '@ui-kitten/components'
 import { StyleSheet, Alert, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -11,24 +11,26 @@ export default function Toolbox() {
 		<Layout>
 			<Layout style={styles.ToolBox}>
 				<Layout style={styles.buttonRow}>
-					<TouchableOpacity onPress={() => Alert.alert('', 'test')}>
+					<TouchableOpacity
+						onPress={() => Alert.alert('x', 'xxxx')}
+					>
 						<Layout style={styles.button}>
 							<Layout style={styles.buttonIcon}>
 								<Icon name="edit" size={30} />
-								<Text style={{fontSize: 10}}>Edit</Text>
+								<Text style={{ fontSize: 10 }}>Edit</Text>
 							</Layout>
 						</Layout>
 					</TouchableOpacity>
 					<Layout style={styles.button}>
 						<Layout style={styles.buttonIcon}>
 							<IconFound name={'paint-bucket'} size={30} />
-							<Text style={{fontSize: 10}}>Fill Tool</Text>
+							<Text style={{ fontSize: 10 }}>Fill Tool</Text>
 						</Layout>
 					</Layout>
 					<Layout style={styles.button}>
 						<Layout style={styles.buttonIcon}>
 							<IconMaterial name="timeline" size={30} />
-							<Text style={{fontSize: 10}}>Manual Pathing</Text>
+							<Text style={{ fontSize: 10 }}>Manual Pathing</Text>
 						</Layout>
 					</Layout>
 				</Layout>
@@ -36,19 +38,21 @@ export default function Toolbox() {
 					<Layout style={styles.button}>
 						<Layout style={styles.buttonIcon}>
 							<IconMaterial name="add-location" size={30} />
-							<Text style={{fontSize: 10}}>Location Plotter</Text>
+							<Text style={{ fontSize: 10 }}>
+								Location Plotter
+							</Text>
 						</Layout>
 					</Layout>
-					<Layout style={styles.button} >
+					<Layout style={styles.button}>
 						<Layout style={styles.buttonIcon}>
 							<IconIonic name="ios-magnet" size={30} />
-							<Text style={{fontSize: 10}}>Snapping Mode</Text>
+							<Text style={{ fontSize: 10 }}>Snapping Mode</Text>
 						</Layout>
 					</Layout>
 					<Layout style={styles.button}>
 						<Layout style={styles.buttonIcon}>
 							<IconMaterial name="room" size={30} />
-							<Text style={{fontSize: 10}}>Plot Mode</Text>
+							<Text style={{ fontSize: 10 }}>Plot Mode</Text>
 						</Layout>
 					</Layout>
 				</Layout>
@@ -81,6 +85,11 @@ const styles = StyleSheet.create({
 		height: 85,
 		width: 85,
 		justifyContent: 'center'
+	},
+	opacity: {
+		height: 85,
+		width: 85,
+		backgroundColor: 'red'
 	},
 	arrowDown: {
 		position: 'absolute',

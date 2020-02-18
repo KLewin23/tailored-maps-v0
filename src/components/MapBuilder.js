@@ -1,7 +1,6 @@
 import React from 'react'
-import * as THREE from 'three'
 import { GLView } from 'expo-gl'
-import ExpoTHREE from 'expo-three'
+import ExpoTHREE, { THREE } from 'expo-three'
 
 export default function MapBuilder() {
 	const onContextCreate = async gl => {
@@ -15,21 +14,19 @@ export default function MapBuilder() {
 		const renderer = new ExpoTHREE.Renderer({ gl })
 		renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight)
 
-		const geometry = new THREE.PlaneGeometry(1800, 1200, 1)
-		geometry.translate(0, 0.5, 0)
-		const loader = new THREE.TextureLoader()
-		const material = new THREE.MeshBasicMaterial({
-			map: loader.load('../images/grid.jpg')
-		})
+		const geometry = new THREE.BoxGeometry(1, 1, 1)
+		const material = new THREE.MeshNormalMaterial({ wireframe: true })
 		const cube = new THREE.Mesh(geometry, material)
 		scene.add(cube)
 
 		camera.position.y = 0
 		camera.position.x = 0
-		camera.position.z = 2
+		camera.position.z = 5
 
 		const animate = () => {
 			window.requestAnimationFrame(animate)
+			cube.rotation.x += 0.02
+			cube.rotation.y += 0.02
 			renderer.render(scene, camera)
 			gl.endFrameEXP()
 		}
@@ -38,7 +35,7 @@ export default function MapBuilder() {
 
 	return (
 		<GLView
-			style={{ flex: 1, backgroundColor: '#f5f5f5' }}
+			style={{ flex: 1, backgroundColor: 'black' }}
 			onContextCreate={onContextCreate}
 		/>
 	)
