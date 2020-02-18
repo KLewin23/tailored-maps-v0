@@ -1,6 +1,7 @@
 import React from 'react'
 import { GLView } from 'expo-gl'
 import ExpoTHREE, { THREE } from 'expo-three'
+import TouchControls from './TouchControls'
 
 export default function MapBuilder() {
 	const onContextCreate = async gl => {
@@ -34,9 +35,13 @@ export default function MapBuilder() {
 	}
 
 	return (
-		<GLView
-			style={{ flex: 1, backgroundColor: 'black' }}
-			onContextCreate={onContextCreate}
-		/>
+		<TouchControls
+			handleVelocityChange={console.log}
+		>
+			<GLView
+				style={{ flex: 1, backgroundColor: 'black' }}
+				onContextCreate={onContextCreate}
+			/>
+		</TouchControls>
 	)
 }

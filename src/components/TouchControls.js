@@ -5,6 +5,11 @@ import PropTypes from 'prop-types'
 function TouchControls(props) {
 	return (
 		<View
+			// onClick={() => {
+			// 	// some stuff
+			// 	const velocity = 1;
+			// 	return props.handleVelocityChange(velocity);
+			// }}
 			onStartShouldSetResponder={() => {
 				console.log('xx')
 			}}
