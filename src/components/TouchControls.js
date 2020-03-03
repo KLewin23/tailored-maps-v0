@@ -1,74 +1,87 @@
-import React, { useState } from 'react'
-import { View, Alert } from 'react-native'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { View } from 'react-native'
 
-function TouchControls(props) {
-	const [pressed, setPressed] = useState(false)
-	const [touchStart, setTouchStart] = useState({})
-	const [speed, setSpeed] = useState(0.0)
-
-	function onMove({ nativeEvent }) {
-		if (!pressed) {
-			setPressed(true)
-			// console.log([nativeEvent.locationX, nativeEvent.locationY])
-			// console.log('pressed')
-			setTouchStart({
-				posX: nativeEvent.locationX,
-				posY: nativeEvent.locationY,
-				timestamp: nativeEvent.timestamp
-			})
-			props.startPos([nativeEvent.locationX, nativeEvent.locationY])
-			console.log([nativeEvent.locationX, nativeEvent.locationY])
+class TouchControls extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			pressed: false,
+			touchStart: null,
+			speed: 0.0
 		}
 	}
 
-	function onRelease({ nativeEvent }) {
-		if (pressed) {
-			setPressed(false)
+	onRelease({ nativeEvent }) {
+		if (this.state.pressed) {
+			this.setState({ pressed: false })
 		}
-		// velocity calc
 		// get width of invisible rectangle
 		const width =
-			(nativeEvent.locationX > touchStart.posX
+			(nativeEvent.locationX > this.state.touchStart.posX
 				? nativeEvent.locationX
-				: touchStart.posX) -
-			(nativeEvent.locationX < touchStart.posX
+				: this.state.touchStart.posX) -
+			(nativeEvent.locationX < this.state.touchStart.posX
 				? nativeEvent.locationX
-				: touchStart.posX)
+				: this.state.touchStart.posX)
 		// get length of invisible rectangle
 		const length =
-			(nativeEvent.locationY > touchStart.posY
+			(nativeEvent.locationY > this.state.touchStart.posY
 				? nativeEvent.locationY
-				: touchStart.posY) -
-			(nativeEvent.locationY < touchStart.posY
+				: this.state.touchStart.posY) -
+			(nativeEvent.locationY < this.state.touchStart.posY
 				? nativeEvent.locationY
-				: touchStart.posY)
+				: this.state.touchStart.posY)
 		// get diagonal length of the invisible rectangle
 		const lineLength = Math.sqrt(width * width + (length + length))
-		const timeTaken = (nativeEvent.timestamp - touchStart.timestamp) / 1000
+		const timeTaken = (nativeEvent.timestamp - this.state.touchStart.timestamp) / 1000
 		const initialSpeed = lineLength / timeTaken
-		setSpeed(initialSpeed)
-		// console.log([nativeEvent.locationX, nativeEvent.locationY])
-		// console.log('release')
-		props.speedChange(initialSpeed)
+		this.setState({ speed: initialSpeed })
+
+		this.props.velocityUpdate(initialSpeed)
 	}
 
-	return (
-		<View
-			style={{ flex: 1 }}
-			onStartShouldSetResponder={() => {
-				return true
-			}}
-			onResponderMove={e => onMove(e)}
-			onResponderRelease={e => onRelease(e)}
-		>
-			{props.children}
-		</View>
-	)
+	onMove({ nativeEvent }) {
+		if (!this.state.pressed) {
+			this.setState({ pressed: true })
+			this.setState({
+				touchStart: {
+					posX: nativeEvent.locationX,
+					posY: nativeEvent.locationY,
+					timestamp: nativeEvent.timestamp
+				}
+			})
+			// Alert.alert('xx', [nativeEvent.locationX, nativeEvent.locationY()])
+			this.props.touchPosition([nativeEvent.locationX, nativeEvent.locationY])
+		}
+	}
+
+	render() {
+		return (
+
+			<View
+				style={[{ flex: 1 }, this.props.style]}
+				// onStartShouldSetResponder={() => {
+				// 	props.increaseSpeed()
+				// }}
+				onResponderMove={e => this.onMove(e)}
+				onResponderRelease={e => this.onRelease(e)}
+			>
+				{this.props.children}
+			</View>
+		)
+	}
 }
 
 TouchControls.propTypes = {
-	children: PropTypes.array
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.object),
+		PropTypes.object
+	]),
+	style: PropTypes.object,
+	// increaseSpeed: PropTypes.func,
+	touchPosition: PropTypes.func,
+	velocityUpdate: PropTypes.func
 }
 
 export default TouchControls

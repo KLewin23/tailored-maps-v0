@@ -1,109 +1,76 @@
-import React, { useState } from 'react'
-import { GLView } from 'expo-gl'
+import React from 'react'
+import { GraphicsView } from 'expo-graphics'
 import ExpoTHREE, { THREE } from 'expo-three'
 import TouchControls from './TouchControls'
-import { Text } from '@ui-kitten/components'
-import { Animated } from 'react-native'
 
-export default function MapBuilder() {
-	const [speed, setSpeed] = useState(100)
-	const [startPosition, setStartPos] = useState([0, 0])
-
-	// const onContextCreate = async gl => {
-	// 	// const raycaster = new THREE.Raycaster()
-	// 	const scene = new THREE.Scene()
-	// 	const camera = new THREE.PerspectiveCamera(
-	// 		75,
-	// 		gl.drawingBufferWidth / gl.drawingBufferHeight,
-	// 		0.1,
-	// 		1000
-	// 	)
-	// 	const renderer = new ExpoTHREE.Renderer({ gl })
-	// 	renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight)
-	//
-	// 	// const geometry = new THREE.BoxGeometry(1, 1, 1)
-	// 	// const material = new THREE.MeshNormalMaterial({ wireframe: true })
-	// 	// const cube = new THREE.Mesh(geometry, material)
-	//
-	// 	// raycaster.setFromCamera(
-	// 	// 	{ x: startPosition[0], y: startPosition[1] },
-	// 	// 	camera
-	// 	// )
-	// 	//
-	// 	// const dist = cube.position
-	// 	// 	.clone()
-	// 	// 	.sub(camera.position)
-	// 	// 	.length()
-	//
-	// 	// raycaster.ray.at(dist, cube.position)
-	//
-	// 	scene.add(cube)
-	//
-	// 	const cube = new THREE.Mesh(
-	// 		new THREE.BoxBufferGeometry(),
-	// 		new THREE.MeshBasicMaterial({
-	// 			color: 'red',
-	// 			wireframe: true
-	// 		})
-	// 	)
-	//
-	// 	cube.rotation.x += speed
-	// 	cube.rotation.y += speed
-	//
-	// 	camera.position.set(0, 0, 10)
-	//
-	// 	console.log(startPosition)
-	//
-	// 	const animate = () => {
-	// 		console.log(speed)
-	// 		window.requestAnimationFrame(animate)
-	// 		renderer.render(scene, camera)
-	// 		gl.endFrameEXP()
-	// 	}
-	// 	animate()
-	// }
-
-	const _onGLContextCreate = async gl => {
-		const scene = new THREE.Scene()
-		const camera = new THREE.PerspectiveCamera(
-			75,
-			gl.drawingBufferWidth / gl.drawingBufferHeight,
-			0.1,
-			1000
-		)
-		const renderer = ExpoTHREE.createRenderer({ gl })
-		renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight)
-
-		const geometry = new THREE.SphereBufferGeometry(1, 36, 36)
-		const material = new THREE.MeshBasicMaterial({
-			color: 'red',
-			wireframe: true
-		})
-		const sphere = new THREE.Mesh(geometry, material)
-		scene.add(sphere)
-		camera.position.set(0, 0, 10)
-		const render = () => {
-			window.requestAnimationFrame(render)
-			sphere.rotation.x += 0.01
-			sphere.rotation.y += 0.01
-			renderer.render(scene, camera)
-			gl.endFrameEXP()
+export default class MapBuilder extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			speed: 1,
+			cube: null,
+			touch: {},
+			camera: null
 		}
-		render()
+		this.onContextCreate = this.onContextCreate.bind(this)
+		this.onRender = this.onRender.bind(this)
+		this.reposition = this.reposition.bind(this)
 	}
 
-	return (
-		<GLView
-			style={{ flex: 1, backgroundColor: 'black' }}
-			onContextCreate={_onGLContextCreate}
-		/>
-	)
+	onContextCreate({ gl, width, height, scale: pixelRatio }) {
+		this.renderer = new ExpoTHREE.Renderer({
+			gl, pixelRatio, width, height
+		})
+		this.scene = new THREE.Scene()
+		this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
+		this.camera.position.z = 5
+		this.setState({ camera: this.camera })
+		const geometry = new THREE.BoxGeometry(1, 1, 1)
+		const material = new THREE.MeshPhongMaterial({ wireframe: true })
+
+		this.cube = new THREE.Mesh(geometry, material)
+
+		this.setState({ cube: this.cube })
+
+		this.scene.add(this.cube)
+	}
+
+	onRender(delta) {
+		const cube = this.state.cube
+		cube.rotation.x += this.state.speed * delta
+		cube.rotation.y += 2 * delta
+		this.renderer.render(this.scene, this.camera)
+	}
+
+	reposition([x, y]) {
+		this.raycaster = new THREE.Raycaster()
+		this.raycaster.setFromCamera(
+			{ x: x, y: y },
+			this.state.camera
+		)
+
+		const dist = this.state.cube.position
+			.clone()
+			.sub(this.state.camera.position)
+			.length()
+
+		this.raycaster.ray.at(dist, this.state.cube.position)
+	}
+
+	render() {
+		return (
+			<TouchControls
+				//increaseSpeed={() => this.setState({ speed: this.state.speed + 0.5 })}
+				velocityUpdate={(e) => this.setState({
+					touch: {
+						...this.state.touch,
+						velocity: e
+					}
+				})}
+				touchPosition={e => this.reposition(e)}
+			>
+				<GraphicsView onContextCreate={this.onContextCreate} onRender={this.onRender}/>
+			</TouchControls>
+		)
+	}
 }
-
-//<Animated.View style={{ flex: 1 }}>
-
-// <TouchControls speedChange={setSpeed} startPos={setStartPos}>
-//{/*	<Text style={{ color: 'pink', position: 'absolute' }}>*/}
-// 		{/*		{startPosition}*/}
-// 		{/*	</Text>*/}
-// 		{/*</TouchControls>*/}
