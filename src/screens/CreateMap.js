@@ -1,25 +1,20 @@
 import React, { useState } from 'react'
-import {
-	StyleSheet,
-	Image,
-	TouchableOpacity,
-	Dimensions
-} from 'react-native'
+import { Dimensions, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Layout } from '@ui-kitten/components'
 import Icon from 'react-native-vector-icons/AntDesign'
-import {MapBuilder, Toolbox} from '../components'
+import { MapBuilder, Toolbox } from '../components'
 
 // eslint-disable-next-line react/prop-types
 export default function CreateScreen({ navigation }) {
 	const [toolBox, setToolbox] = useState(false)
 
-	const BottomBar = () => (toolBox ? <Toolbox /> : <Layout />)
+	const BottomBar = () => (toolBox ? <Toolbox/> : <Layout/>)
 
 	// setToolbox(true)
 
 	return (
 		<Layout style={{ backgroundColor: 'pink' }}>
-			<Layout style={styles.MaxBar} />
+			<Layout style={styles.MaxBar}/>
 			<Layout style={styles.topBar}>
 				<TouchableOpacity onPress={() => navigation.navigate('Home')}>
 					<Image
@@ -29,8 +24,8 @@ export default function CreateScreen({ navigation }) {
 				</TouchableOpacity>
 			</Layout>
 			<Layout style={styles.mainBody}>
-				<MapBuilder style={{ zIndex: 1 }} />
-				<BottomBar />
+				<MapBuilder style={{ zIndex: 1 }}/>
+				<BottomBar/>
 			</Layout>
 			<Layout style={styles.bottomBar}>
 				<TouchableOpacity>
@@ -41,14 +36,14 @@ export default function CreateScreen({ navigation }) {
 					/>
 				</TouchableOpacity>
 				<TouchableOpacity>
-					<Icon name='google' size={30} />
+					<Icon name='google' size={30}/>
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => {
 						setToolbox(!toolBox)
 					}}
 				>
-					<Icon name='tool' size={30} />
+					<Icon name='tool' size={30}/>
 				</TouchableOpacity>
 			</Layout>
 		</Layout>

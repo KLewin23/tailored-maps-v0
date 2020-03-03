@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button, Layout, Icon } from '@ui-kitten/components'
-import { Image, StyleSheet, Text, Dimensions } from 'react-native'
+import { Button, Icon, Layout } from '@ui-kitten/components'
+import { Image, StyleSheet, Text } from 'react-native'
 
 export const QrIcon = style => <Icon name='qrcode' {...style} />
 export const EditIcon = style => <Icon name='edit' {...style} />
