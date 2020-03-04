@@ -1,21 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View } from 'react-native'
+import { Alert, View } from 'react-native'
 
 class TouchControls extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			pressed: false,
 			touchStart: null,
 			speed: 0.0
 		}
 	}
 
 	onRelease({ nativeEvent }) {
-		if (this.state.pressed) {
-			this.setState({ pressed: false })
-		}
 		// get width of invisible rectangle
 		const width =
 			(nativeEvent.locationX > this.state.touchStart.posX
@@ -42,18 +38,14 @@ class TouchControls extends React.Component {
 	}
 
 	onMove({ nativeEvent }) {
-		if (!this.state.pressed) {
-			this.setState({ pressed: true })
-			this.setState({
-				touchStart: {
-					posX: nativeEvent.locationX,
-					posY: nativeEvent.locationY,
-					timestamp: nativeEvent.timestamp
-				}
-			})
-			// Alert.alert('xx', [nativeEvent.locationX, nativeEvent.locationY()])
-			this.props.touchPosition([nativeEvent.locationX, nativeEvent.locationY])
-		}
+		this.setState({
+			touchStart: {
+				posX: nativeEvent.locationX,
+				posY: nativeEvent.locationY,
+				timestamp: nativeEvent.timestamp
+			}
+		})
+		this.props.touchPosition([nativeEvent.locationX, nativeEvent.locationY])
 	}
 
 	render() {
@@ -61,11 +53,9 @@ class TouchControls extends React.Component {
 
 			<View
 				style={[{ flex: 1 }, this.props.style]}
-				// onStartShouldSetResponder={() => {
-				// 	props.increaseSpeed()
-				// }}
+				onStartShouldSetResponder={() => true}
 				onResponderMove={e => this.onMove(e)}
-				onResponderRelease={e => this.onRelease(e)}
+				// onResponderRelease={e => this.onRelease(e)}
 			>
 				{this.props.children}
 			</View>
@@ -79,7 +69,6 @@ TouchControls.propTypes = {
 		PropTypes.object
 	]),
 	style: PropTypes.object,
-	// increaseSpeed: PropTypes.func,
 	touchPosition: PropTypes.func,
 	velocityUpdate: PropTypes.func
 }

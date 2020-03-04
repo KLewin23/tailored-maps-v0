@@ -10,7 +10,8 @@ export default class MapBuilder extends React.Component {
 			speed: 1,
 			cube: null,
 			touch: {},
-			camera: null
+			camera: null,
+			gl: null
 		}
 		this.onContextCreate = this.onContextCreate.bind(this)
 		this.onRender = this.onRender.bind(this)
@@ -21,6 +22,7 @@ export default class MapBuilder extends React.Component {
 		this.renderer = new ExpoTHREE.Renderer({
 			gl, pixelRatio, width, height
 		})
+		this.setState({ gl: gl })
 		this.scene = new THREE.Scene()
 		this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
 		this.camera.position.z = 5
@@ -45,7 +47,10 @@ export default class MapBuilder extends React.Component {
 	reposition([x, y]) {
 		this.raycaster = new THREE.Raycaster()
 		this.raycaster.setFromCamera(
-			{ x: x, y: y },
+			{
+				x: (x / this.state.gl.drawingBufferWidth) * 7 - 1,
+				y: -(y / this.state.gl.drawingBufferHeight) * 7 + 1
+			},
 			this.state.camera
 		)
 
@@ -60,7 +65,6 @@ export default class MapBuilder extends React.Component {
 	render() {
 		return (
 			<TouchControls
-				//increaseSpeed={() => this.setState({ speed: this.state.speed + 0.5 })}
 				velocityUpdate={(e) => this.setState({
 					touch: {
 						...this.state.touch,
