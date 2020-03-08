@@ -26,6 +26,7 @@ export default class MapBuilder extends React.Component {
 		this.onContextCreate = this.onContextCreate.bind(this)
 		this.onRender = this.onRender.bind(this)
 		this.reposition = this.reposition.bind(this)
+		this.onRelease = this.onRelease.bind(this)
 	}
 
 	onContextCreate({ gl, width, height, scale: pixelRatio }) {
@@ -50,9 +51,9 @@ export default class MapBuilder extends React.Component {
 		this.setState({
 			cannon: {
 				body: body,
-				world: world,
-				target: new Vector3()
+				world: world
 			},
+			moving: false,
 			three: {
 				plane: plane,
 				gl: gl,
@@ -72,6 +73,7 @@ export default class MapBuilder extends React.Component {
 	}
 
 	reposition([x, y]) {
+		const target = new Vector3()
 		this.raycaster = new THREE.Raycaster()
 		this.raycaster.setFromCamera(
 			{
@@ -84,10 +86,31 @@ export default class MapBuilder extends React.Component {
 			.clone()
 			.sub(this.state.three.camera.position)
 			.length()
-		this.raycaster.ray.at(dist, this.state.cannon.target)
-		console.log(this.state.cannon.target)
-		//this.state.cannon.body.position.set(this.state.cannon.target)
-		//this.state.cannon.body.velocity.set(2,0,0)
+		this.raycaster.ray.at(dist, target)
+		this.state.cannon.body.position.set(target.x, target.y, 0)
+	}
+
+	onRelease(widthVelocity, heightVelocity) {
+		console.log([widthVelocity, heightVelocity])
+		if (widthVelocity !== 0 && heightVelocity !== 0) {
+			this.state.cannon.body.velocity.set(widthVelocity, heightVelocity, 0)
+			velocityBurn(this.state.cannon.body)
+		}
+
+		function velocityBurn(object) {
+			sleep(500).then(() => {
+				object.velocity.set(object.velocity.x - 0.1, object.velocity.y - 0.1, 0)
+				if (Math.floor(object.velocity.x * 10) / 10 !== 0 && Math.floor(object.velocity.y * 10) / 10 !== 0) {
+					velocityBurn(object)
+				} else {
+					object.velocity.set(0, 0, 0)
+				}
+			})
+		}
+
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms))
+		}
 	}
 
 	render() {
@@ -99,7 +122,8 @@ export default class MapBuilder extends React.Component {
 						velocity: e
 					}
 				})}
-				touchPosition={e => this.reposition(e)}
+				onMove={e => this.reposition(e)}
+				onRelease={(w, h) => this.onRelease(w, h)}
 			>
 				<GraphicsView onContextCreate={this.onContextCreate} onRender={this.onRender}/>
 			</TouchControls>

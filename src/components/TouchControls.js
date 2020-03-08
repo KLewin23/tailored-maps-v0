@@ -1,51 +1,56 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Alert, View } from 'react-native'
+import { View } from 'react-native'
 
 class TouchControls extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			touchStart: null,
-			speed: 0.0
+			speed: 0.0,
+			positions: []
 		}
 	}
 
 	onRelease({ nativeEvent }) {
-		// get width of invisible rectangle
+		const recentPosition = this.state.positions[this.state.positions.length - 2]
 		const width =
-			(nativeEvent.locationX > this.state.touchStart.posX
+			(nativeEvent.locationX > recentPosition.posX
 				? nativeEvent.locationX
-				: this.state.touchStart.posX) -
-			(nativeEvent.locationX < this.state.touchStart.posX
+				: recentPosition.posX) -
+			(nativeEvent.locationX < recentPosition.posX
 				? nativeEvent.locationX
-				: this.state.touchStart.posX)
+				: recentPosition.posX)
 		// get length of invisible rectangle
 		const length =
-			(nativeEvent.locationY > this.state.touchStart.posY
+			(nativeEvent.locationY > recentPosition.posY
 				? nativeEvent.locationY
-				: this.state.touchStart.posY) -
-			(nativeEvent.locationY < this.state.touchStart.posY
+				: recentPosition.posY) -
+			(nativeEvent.locationY < recentPosition.posY
 				? nativeEvent.locationY
-				: this.state.touchStart.posY)
+				: recentPosition.posY)
 		// get diagonal length of the invisible rectangle
-		const lineLength = Math.sqrt(width * width + (length + length))
-		const timeTaken = (nativeEvent.timestamp - this.state.touchStart.timestamp) / 1000
-		const initialSpeed = lineLength / timeTaken
-		this.setState({ speed: initialSpeed })
 
-		this.props.velocityUpdate(initialSpeed)
+		// const lineLength = Math.sqrt(width * width + (length + length))
+		const timeTaken = (nativeEvent.timestamp - recentPosition.timestamp) / 1000
+		const widthVelocity = width / timeTaken
+		const lengthVelocity = length / timeTaken
+		console.log(widthVelocity / 1000)
+		console.log(lengthVelocity / 1000)
+		// this.setState({ speed: initialSpeed })
+
+		this.props.onRelease(widthVelocity / 46, lengthVelocity / 46)
 	}
 
 	onMove({ nativeEvent }) {
-		this.setState({
-			touchStart: {
-				posX: nativeEvent.locationX,
-				posY: nativeEvent.locationY,
-				timestamp: nativeEvent.timestamp
-			}
+		const newArray = this.state.positions.concat({
+			posX: nativeEvent.locationX,
+			posY: nativeEvent.locationY,
+			timestamp: nativeEvent.timestamp
 		})
-		this.props.touchPosition([nativeEvent.locationX, nativeEvent.locationY])
+		this.setState({
+			positions: newArray
+		})
+		this.props.onMove([nativeEvent.locationX, nativeEvent.locationY])
 	}
 
 	render() {
@@ -54,8 +59,8 @@ class TouchControls extends React.Component {
 			<View
 				style={[{ flex: 1 }, this.props.style]}
 				onStartShouldSetResponder={() => true}
-				onResponderMove={e => this.onMove(e)}
-				// onResponderRelease={e => this.onRelease(e)}
+				onResponderMove={event => this.onMove(event)}
+				onResponderRelease={event => this.onRelease(event)}
 			>
 				{this.props.children}
 			</View>
@@ -69,8 +74,8 @@ TouchControls.propTypes = {
 		PropTypes.object
 	]),
 	style: PropTypes.object,
-	touchPosition: PropTypes.func,
-	velocityUpdate: PropTypes.func
+	onMove: PropTypes.func,
+	onRelease: PropTypes.func
 }
 
 export default TouchControls
