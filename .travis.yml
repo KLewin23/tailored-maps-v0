@@ -12,5 +12,5 @@ branches:
     - master
 script:
   - npm install
-  - npm test
+  - jest
   - expo publish
