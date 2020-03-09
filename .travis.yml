@@ -26,5 +26,5 @@ jobs:
       node_js: lts/*
       script:
       - npm install --save-dev expo-cli
-      - npx expo login --non-interactive -u kieranlewin
+      - npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD --non-interactive
       - npx expo publish --non-interactive
