@@ -1,33 +1,43 @@
 {
-	"expo": {
-		"name": "Tab Navigation Template",
-		"slug": "tailored-maps",
-		"owner": "Kieran Lewin",
-		"privacy": "unlisted",
-		"sdkVersion": "36.0.0",
-		"entryPoint": "./src/Main.js",
-		"platforms": ["ios", "android", "web"],
-		"version": "1.0.0",
-		"primaryColor": "#ffffff",
-		"orientation": "portrait",
-		"icon": "./src/assets/images/icon.png",
-		"splash": {
-			"image": "./src/assets/images/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true,
-			"infoPlist": {
-				"NSCameraUsageDescription": "Tailored maps requires access to the camera to scan for qr codes"
-			}
-		},
-		"android": {
-			"permissions": ["CAMERA"]
-		}
-	}
+  "expo": {
+    "name": "Tailored Maps",
+    "slug": "tailored-maps",
+    "owner": "kieranlewin",
+    "privacy": "unlisted",
+    "sdkVersion": "36.0.0",
+    "entryPoint": "./src/Main.js",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "primaryColor": "#ffffff",
+    "orientation": "portrait",
+    "icon": "./src/assets/images/icon.png",
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Tailored maps requires access to the camera to scan for qr codes"
+      }
+    },
+    "android": {
+      "permissions": [
+        "CAMERA"
+      ]
+    },
+    "description": "",
+    "githubUrl": "https://github.com/Afrenchrussian/tailored-maps"
+  }
 }
