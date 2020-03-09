@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "Tab Navigation Template",
 		"slug": "tailored-maps",
-		"owner": "KieranLewin",
+		"owner": "kieranlewin",
 		"privacy": "unlisted",
 		"sdkVersion": "36.0.0",
 		"entryPoint": "./src/Main.js",
