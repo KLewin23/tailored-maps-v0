@@ -15,9 +15,9 @@ branches:
 
 before_script:
   - npm install -g npm@latest
-  - echo fs.inotify.max_user_instances=8192
-  - echo fs.inotify.max_user_watches=8192
-  - echo fs.inotify.max_queued_events=8192
+  - sudo sysctl fs.inotify.max_user_instances=524288
+  - sudo sysctl fs.inotify.max_user_watches=524288
+  - sudo sysctl fs.inotify.max_queued_events=524288
 
 script:
   - npm ci
